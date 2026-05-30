@@ -14,7 +14,6 @@
 - [入门推荐论文](#入门推荐论文)
 - [数据集](#数据集)
 - [方法总览](#方法总览)
-  - [基于直方图均衡的方法 (HE-based)](#基于直方图均衡的方法-he-based)
   - [基于 Retinex 理论的方法 (Retinex-based)](#基于-retinex-理论的方法-retinex-based)
   - [基于深度学习的方法 (Learning-based)](#基于深度学习的方法-learning-based)
   - [其他方法](#其他方法)
@@ -48,7 +47,7 @@
 - 经典方法：全局直方图均衡化、自适应直方图均衡化 (AHE/CLAHE)
 - 优点：简单、快速、无需训练
 - 缺点：容易过度增强、放大噪声、产生不自然效果
-- **入门推荐**：先理解 BPDHE（亮度保持动态直方图均衡化），它解决了经典 HE 亮度漂移的问题。
+- 代表思路：亮度保持动态直方图均衡化（BPDHE）尝试缓解经典 HE 的亮度漂移问题。
 
 #### 2. Retinex 理论
 
@@ -92,18 +91,18 @@
 
 ## 入门推荐论文
 
-如果你只有时间读 5-8 篇论文，以下是按学习顺序推荐的核心读物：
+如果你只有时间读 5-8 篇论文，以下是按学习顺序推荐的核心读物。这里默认只推荐带 GitHub 代码、方便复现的论文。
 
-| 序号 | 论文 | 年份/会议 | 为什么推荐 | 难度 |
-|:--:|------|:--:|------|:--:|
-| 1 | **LIME** — Low-Light Image Enhancement via Illumination Map Estimation | 2017 TIP | 思路极其清晰：只估计光照图，然后做 gamma 校正。代码短、数学优雅，传统方法的最佳入门读物。 | ⭐ |
-| 2 | **RetinexNet** — Deep Retinex Decomposition for Low-Light Enhancement | 2018 BMVC | 第一个将 Retinex 与深度学习结合的工作。网络结构简单（分解+增强两步），容易理解。 | ⭐⭐ |
-| 3 | **KinD** — Kindling the Darkness: A Practical Low-light Image Enhancer | 2019 ACM MM | Retinex + 深度学习的经典之作，提出分解-调节-重建的完整流程，代码完善，实验扎实。 | ⭐⭐ |
-| 4 | **EnlightenGAN** — Deep Light Enhancement without Paired Supervision | 2019 TIP | 无需配对数据即可训练的 GAN 方法，打破了"必须有暗-亮图像对"的限制，思想影响深远。 | ⭐⭐ |
-| 5 | **SID** — Learning to See in the Dark | 2018 CVPR | 处理极端暗光（~0.1 lux）的里程碑工作，首次展示深度学习在极暗 Raw 数据上的惊人效果。 | ⭐⭐⭐ |
-| 6 | **Zero-DCE** — Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement | 2020 CVPR | 无需参考图像、无需配对数据，通过估计高阶曲线来做增强。思路新颖，训练简单。 | ⭐⭐ |
-| 7 | **URetinex-Net** — Retinex-Based Deep Unfolding Network | 2022 CVPR | 将传统优化展开 (unrolling) 与深度学习结合，展示了如何给黑盒网络赋予物理意义。 | ⭐⭐⭐ |
-| 8 | **Retinexformer** — One-stage Retinex-based Transformer | 2023 ICCV | Transformer 做弱光增强的代表作，了解最新架构如何应用于该领域。 | ⭐⭐⭐ |
+| 序号 | 论文 | 年份/会议 | GitHub | 为什么推荐 | 难度 |
+|:--:|------|:--:|:--:|------|:--:|
+| 1 | **LIME** — Low-Light Image Enhancement via Illumination Map Estimation | 2017 TIP | [code](https://github.com/Sy-Zhang/LIME) | 思路极其清晰：只估计光照图，然后做 gamma 校正。代码短、数学优雅，传统方法的最佳入门读物。 | ⭐ |
+| 2 | **RetinexNet** — Deep Retinex Decomposition for Low-Light Enhancement | 2018 BMVC | [code](https://github.com/yzhouas/Retinex-Net) | 第一个将 Retinex 与深度学习结合的工作。网络结构简单（分解+增强两步），容易理解。 | ⭐⭐ |
+| 3 | **KinD** — Kindling the Darkness: A Practical Low-light Image Enhancer | 2019 ACM MM | [code](https://github.com/zhangyhuaee/KinD) | Retinex + 深度学习的经典之作，提出分解-调节-重建的完整流程，代码完善，实验扎实。 | ⭐⭐ |
+| 4 | **EnlightenGAN** — Deep Light Enhancement without Paired Supervision | 2019 TIP | [code](https://github.com/TAMU-VITA/EnlightenGAN) | 无需配对数据即可训练的 GAN 方法，打破了"必须有暗-亮图像对"的限制，思想影响深远。 | ⭐⭐ |
+| 5 | **SID** — Learning to See in the Dark | 2018 CVPR | [code](https://github.com/cchen156/Learning-to-See-in-the-Dark) | 处理极端暗光（~0.1 lux）的里程碑工作，首次展示深度学习在极暗 Raw 数据上的惊人效果。 | ⭐⭐⭐ |
+| 6 | **Zero-DCE** — Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement | 2020 CVPR | [code](https://github.com/Li-Chongyi/Zero-DCE) | 无需参考图像、无需配对数据，通过估计高阶曲线来做增强。思路新颖，训练简单。 | ⭐⭐ |
+| 7 | **URetinex-Net** — Retinex-Based Deep Unfolding Network | 2022 CVPR | [code](https://github.com/ywmc/URetinex-Net) | 将传统优化展开 (unrolling) 与深度学习结合，展示了如何给黑盒网络赋予物理意义。 | ⭐⭐⭐ |
+| 8 | **Retinexformer** — One-stage Retinex-based Transformer | 2023 ICCV | [code](https://github.com/caiyuanhao1998/Retinexformer) | Transformer 做弱光增强的代表作，了解最新架构如何应用于该领域。 | ⭐⭐⭐ |
 
 ---
 
@@ -140,16 +139,7 @@
 
 ## 方法总览
 
-> 每个分类前有一段导读，帮助理解该类方法的核心思想。每篇论文标注了**难度等级**：⭐ 入门 / ⭐⭐ 进阶 / ⭐⭐⭐ 研究。
-
-### 基于直方图均衡的方法 (HE-based)
-
-**核心思想**：通过调整像素亮度分布来增强对比度。可以理解为把"挤在一起"的亮度值"拉开"。这类方法计算简单、不需要训练数据，适合嵌入式设备和对实时性要求高的场景。缺点是对局部光照不均匀的图像效果不佳，容易过增强。
-
-| 年份 | 发表 | 论文 | 链接 | 方法名 | 难度 |
-|:--:|------|------|:--:|------|:--:|
-| 2007 | IEEE TCE | Brightness Preserving Dynamic Histogram Equalization for Image Contrast Enhancement | [pdf](https://ieeexplore.ieee.org/document/4429280) | BPDHE | ⭐ |
-| 2013 | SITIS | Adaptive Multiscale Retinex for Image Contrast Enhancement | [pdf](https://doi.ieeecomputersociety.org/10.1109/SITIS.2013.19) | AMSR | ⭐⭐ |
+> 每个分类前有一段导读，帮助理解该类方法的核心思想。这里默认只收录带 GitHub 代码的论文，方便复现。难度等级：⭐ 入门 / ⭐⭐ 进阶 / ⭐⭐⭐ 研究。
 
 ### 基于 Retinex 理论的方法 (Retinex-based)
 
@@ -159,8 +149,6 @@
 
 | 年份 | 发表 | 论文 | 链接 | 方法名 | 难度 |
 |------|------|------|:--:|------|:--:|
-| 2013 | SITIS | Adaptive Multiscale Retinex for Image Contrast Enhancement | [pdf](https://doi.ieeecomputersociety.org/10.1109/SITIS.2013.19) | AMSR | ⭐⭐ |
-| 2016 | Signal Processing | A fusion-based enhancing method for weakly illuminated images | [pdf](https://doi.org/10.1016/j.sigpro.2016.05.031) | MF | ⭐ |
 | 2017 | IEEE TIP | LIME: Low-Light Image Enhancement via Illumination Map Estimation | [pdf](http://ieeexplore.ieee.org/document/7782813/) [code](https://github.com/Sy-Zhang/LIME) | LIME | ⭐ |
 | 2017 | ICCV | A Joint Intrinsic-Extrinsic Prior Model for Retinex | [pdf](http://caibolun.github.io/papers/JieP.pdf) [web](http://caibolun.github.io/JieP/) [code](https://github.com/caibolun/JieP) | JieP | ⭐⭐ |
 | 2018 | BMVC | Deep Retinex Decomposition for Low-Light Enhancement | [pdf](https://arxiv.org/abs/1808.04560) [web](https://daooshee.github.io/BMVC2018website/) [code](https://github.com/yzhouas/Retinex-Net) | RetinexNet | ⭐⭐ |
@@ -248,7 +236,6 @@
 
 | 年份 | 发表 | 论文 | 链接 | 方法名 | 难度 |
 |:--:|------|------|:--:|------|:--:|
-| 2011 | ICME | Fast efficient algorithm for enhancement of low lighting video | [pdf](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6012107) | Xuan-Dong | ⭐ |
 | 2017 | ICCVW | A New Low-Light Image Enhancement Algorithm Using Camera Response Model | [pdf](http://ieeexplore.ieee.org/document/8265567/) [code](https://github.com/baidut/OpenCE/blob/master/algorithm/enhancement/CRM.cpp) | CRM | ⭐ |
 | 2017 | ArXiv | A Bio-Inspired Multi-Exposure Fusion Framework for Low-light Image Enhancement | [pdf](http://arxiv.org/abs/1711.00591) [code](https://github.com/baidut/BIMEF) | BIMEF | ⭐ |
 | 2019 | ICIP | Fast Image Enhancement Based on Maximum and Guided Filters | [pdf](https://ieeexplore.ieee.org/document/8803591) [code](https://github.com/zhouhang95/FIEM) | FIEM | ⭐ |
@@ -368,7 +355,6 @@ test_data/
 | 年份 | 发表 | 论文 | 链接 | 方法名 | 标签 |
 |:--:|------|------|:--:|------|------|
 | 2015 | ACM TOG | Automatic Photo Adjustment Using Deep Neural Networks | [web](https://sites.google.com/site/homepagezhichengyan/home/dl_img_adjust) [code](https://github.com/stephenyan1984/DeepPhotoStyle_TensorFlow) | DeepPhoto | 照片增强 |
-| 2018 | CVPR | Distort-and-Recover: Color Enhancement using Deep Reinforcement Learning | [web](https://sites.google.com/view/distort-and-recover/) [pdf](https://doi.org/10.1109/CVPR.2018.00621) | Distort-and-Recover | 照片增强 |
 | 2021 | TMM | Recurrent exposure generation for low-light face detection | [pdf](https://arxiv.org/abs/2007.10963) [code](https://github.com/sherrycattt/REGDet) | REGDet | 人脸检测 |
 | 2022 | ICCP | Robust Scene Inference under Noise-Blur Dual Corruptions | [pdf](https://arxiv.org/abs/2207.11643) [code](https://github.com/bhavyagoyal/noiseblurdual) [web](https://wisionlab.com/projects/noiseblur/) | NoiseBlur | 场景推断 |
 | 2024 | AAAI | Aleth-NeRF: Illumination Adaptive NeRF with Concealing Field Assumption | [pdf](https://arxiv.org/abs/2312.09093) [code](https://github.com/cuiziteng/Aleth-NeRF) [web](https://cuiziteng.github.io/Aleth-NeRF/) | Aleth-NeRF | NeRF/3D |

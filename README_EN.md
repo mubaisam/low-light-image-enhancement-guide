@@ -39,7 +39,7 @@ Low-Light Image Enhancement (LLIE) refers to algorithms that improve image quali
 ### Three Main Paradigms
 
 #### 1. Histogram Equalization (HE)
-Redistributes pixel intensity values to stretch dark regions and compress bright ones, improving overall contrast. Simple, fast, requires no training. Prone to over-enhancement and noise amplification. **Start with BPDHE** (brightness-preserving variant).
+Redistributes pixel intensity values to stretch dark regions and compress bright ones, improving overall contrast. Simple, fast, requires no training. Prone to over-enhancement and noise amplification. Brightness-preserving variants such as BPDHE try to reduce brightness drift in classic HE.
 
 #### 2. Retinex Theory
 Based on Edwin Land's theory: an image = **Illumination × Reflectance**. The reflectance component represents the object's true color/texture (independent of lighting). Methods estimate and correct the illumination component to recover the scene. Physically interpretable but ill-posed. **Start with LIME** (simplest approach: estimate illumination map, then gamma-correct).
@@ -59,18 +59,18 @@ Let neural networks learn the "dark → bright" mapping from data. Sub-direction
 
 ## Recommended Starter Papers
 
-If you only have time for a few papers, read these in order:
+If you only have time for a few papers, read these in order. This list only recommends papers with GitHub code for reproducibility.
 
-| # | Paper | Venue | Why Read | Level |
-|:--:|------|:--:|------|:--:|
-| 1 | **LIME** — Illumination Map Estimation | 2017 TIP | Clean, elegant traditional method. Best entry point. | ⭐ |
-| 2 | **RetinexNet** — Deep Retinex Decomposition | 2018 BMVC | First to combine Retinex with deep learning. | ⭐⭐ |
-| 3 | **KinD** — Kindling the Darkness | 2019 ACM MM | Complete decompose-adjust-reconstruct pipeline. | ⭐⭐ |
-| 4 | **EnlightenGAN** — Enhancement without Paired Supervision | 2019 TIP | GAN-based, no paired data needed. Influential. | ⭐⭐ |
-| 5 | **SID** — Learning to See in the Dark | 2018 CVPR | Landmark work on extreme low-light (~0.1 lux). | ⭐⭐⭐ |
-| 6 | **Zero-DCE** — Zero-Reference Deep Curve Estimation | 2020 CVPR | No reference, no paired data. Novel curve-based approach. | ⭐⭐ |
-| 7 | **URetinex-Net** — Deep Unfolding Network | 2022 CVPR | Unrolling optimization with deep learning. | ⭐⭐⭐ |
-| 8 | **Retinexformer** — One-stage Transformer | 2023 ICCV | Transformer for LLIE. Latest architecture. | ⭐⭐⭐ |
+| # | Paper | Venue | GitHub | Why Read | Level |
+|:--:|------|:--:|:--:|------|:--:|
+| 1 | **LIME** — Illumination Map Estimation | 2017 TIP | [code](https://github.com/Sy-Zhang/LIME) | Clean, elegant traditional method. Best entry point. | ⭐ |
+| 2 | **RetinexNet** — Deep Retinex Decomposition | 2018 BMVC | [code](https://github.com/yzhouas/Retinex-Net) | First to combine Retinex with deep learning. | ⭐⭐ |
+| 3 | **KinD** — Kindling the Darkness | 2019 ACM MM | [code](https://github.com/zhangyhuaee/KinD) | Complete decompose-adjust-reconstruct pipeline. | ⭐⭐ |
+| 4 | **EnlightenGAN** — Enhancement without Paired Supervision | 2019 TIP | [code](https://github.com/TAMU-VITA/EnlightenGAN) | GAN-based, no paired data needed. Influential. | ⭐⭐ |
+| 5 | **SID** — Learning to See in the Dark | 2018 CVPR | [code](https://github.com/cchen156/Learning-to-See-in-the-Dark) | Landmark work on extreme low-light (~0.1 lux). | ⭐⭐⭐ |
+| 6 | **Zero-DCE** — Zero-Reference Deep Curve Estimation | 2020 CVPR | [code](https://github.com/Li-Chongyi/Zero-DCE) | No reference, no paired data. Novel curve-based approach. | ⭐⭐ |
+| 7 | **URetinex-Net** — Deep Unfolding Network | 2022 CVPR | [code](https://github.com/ywmc/URetinex-Net) | Unrolling optimization with deep learning. | ⭐⭐⭐ |
+| 8 | **Retinexformer** — One-stage Transformer | 2023 ICCV | [code](https://github.com/caiyuanhao1998/Retinexformer) | Transformer for LLIE. Latest architecture. | ⭐⭐⭐ |
 
 ---
 
@@ -107,10 +107,9 @@ These datasets usually contain low-light images without strictly paired normal-l
 
 ## Methods Overview
 
-For the complete paper list with links, codes, and difficulty ratings, see the [main Chinese README](./README.md#方法总览). The methods are organized into:
+For the complete paper list with links, GitHub code, and difficulty ratings, see the [main Chinese README](./README.md#方法总览). The methods are organized into:
 
-- **HE-based** — Simple, fast, no training needed. Good for real-time/embedded scenarios.
-- **Retinex-based** — Physically interpretable. Traditional (LIME, MF) or deep (RetinexNet, KinD, Retinexformer).
+- **Retinex-based** — Physically interpretable. Traditional (LIME) or deep (RetinexNet, KinD, Retinexformer).
 - **Learning-based** — State-of-the-art performance. From CNNs to GANs to Diffusion to Transformers.
 - **Other methods** — Camera response models, multi-exposure fusion, filtering-based.
 
@@ -230,7 +229,6 @@ test_data/
 | Year | Venue | Paper | Links | Topic |
 |:--:|------|------|:--:|------|
 | 2015 | ACM TOG | Automatic Photo Adjustment Using Deep Neural Networks | [web](https://sites.google.com/site/homepagezhichengyan/home/dl_img_adjust) [code](https://github.com/stephenyan1984/DeepPhotoStyle_TensorFlow) | Photo Enhancement |
-| 2018 | CVPR | Distort-and-Recover: Color Enhancement using Deep RL | [web](https://sites.google.com/view/distort-and-recover/) [pdf](https://doi.org/10.1109/CVPR.2018.00621) | Photo Enhancement |
 | 2021 | TMM | Recurrent exposure generation for low-light face detection | [pdf](https://arxiv.org/abs/2007.10963) [code](https://github.com/sherrycattt/REGDet) | Face Detection |
 | 2022 | ICCP | Robust Scene Inference under Noise-Blur Dual Corruptions | [pdf](https://arxiv.org/abs/2207.11643) [code](https://github.com/bhavyagoyal/noiseblurdual) | Scene Inference |
 | 2024 | AAAI | Aleth-NeRF: Illumination Adaptive NeRF | [pdf](https://arxiv.org/abs/2312.09093) [code](https://github.com/cuiziteng/Aleth-NeRF) | NeRF/3D |
