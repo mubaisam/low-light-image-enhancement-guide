@@ -109,16 +109,32 @@
 
 ## 数据集
 
-> 新手建议从 **LOL** 数据集入手，它是目前使用最广泛的弱光增强基准数据集。
+弱光增强常用数据集可以按是否有配对参考图像分为两类：**有监督配对数据集**和**非配对/无参考测试集**。
 
-| 数据集 | 简介 | 链接 | 推荐度 |
-|:--:|------|:--:|:--:|
-| [LOL](https://arxiv.org/abs/1808.04560) | Deep Retinex Decomposition for Low-Light Enhancement，包含 500 对暗-亮训练图像 | [link](https://daooshee.github.io/BMVC2018website) | ⭐⭐⭐ 入门首选 |
-| SDSD | Seeing Dynamic Scene in the Dark，高质量视频数据集 | [github](https://github.com/dvlab-research/SDSD) | ⭐⭐ |
-| MID | Matching in the Dark，弱光场景图像匹配数据集 | [link](https://wenzhengchina.github.io/projects/mid/) | ⭐ |
-| DeepHDRVideo | HDR 视频重建数据集 | [link](https://guanyingc.github.io/DeepHDRVideo-Dataset/) | ⭐ |
-| LLVIP | 可见光-红外配对弱光数据集 | [link](https://bupt-ai-cz.github.io/LLVIP/) | ⭐⭐ |
-| RELLISUR | 真实弱光图像超分辨率数据集 | [link](https://vap.aau.dk/rellisur/) | ⭐ |
+### 有监督配对数据集
+
+这类数据集提供低光图像和正常光参考图像，适合训练或评测需要 PSNR、SSIM、LPIPS 等全参考指标的方法。
+
+| 数据集 | 子集/版本 | 简介 | 链接 |
+|:--:|:--:|------|:--:|
+| LOLv1 | - | 经典配对弱光增强基准，常作为入门和方法对比的第一组数据 | [paper](https://arxiv.org/abs/1808.04560) / [project](https://daooshee.github.io/BMVC2018website) |
+| LOLv2 | Real | 真实采集的低光/正常光配对数据，难度更接近真实场景 | [github](https://github.com/flyywh/CVPR-2020-Semi-Low-Light) |
+| LOLv2 | Synthetic | 合成退化得到的低光/正常光配对数据，常用于受控训练和对比 | [github](https://github.com/flyywh/CVPR-2020-Semi-Low-Light) |
+| MIT-Adobe FiveK | - | 5,000 张 RAW 照片及多位专家修图结果，常用于照片增强/曝光校正相关研究 | [dataset](https://data.csail.mit.edu/graphics/fivek/) |
+| LSRW | Huawei | 使用华为设备采集的大规模真实低光/正常光配对数据 | [paper](https://arxiv.org/abs/2106.14501) / [github](https://github.com/JianghaiSCU/R2RNet) |
+| LSRW | Nikon | 使用 Nikon 相机采集的大规模真实低光/正常光配对数据 | [paper](https://arxiv.org/abs/2106.14501) / [github](https://github.com/JianghaiSCU/R2RNet) |
+
+### 非配对/无参考测试集
+
+这类数据集通常只有低光图像或缺少严格配对参考图像，常用于无监督方法、零参考方法和跨数据集泛化测试。
+
+| 数据集 | 简介 | 链接 |
+|:--:|------|:--:|
+| VV | 包含具有挑战性的低光/曝光问题图像，常用于视觉质量对比 | [github](https://github.com/baidut/BIMEF) |
+| NPE | Naturalness Preserved Enhancement 常用测试集 | [github](https://github.com/baidut/BIMEF) |
+| LIME | LIME 论文使用的低光测试图像集合 | [github](https://github.com/baidut/BIMEF) |
+| MEF | 多曝光融合相关低光测试图像集合 | [github](https://github.com/baidut/BIMEF) |
+| DICM | 商用数码相机拍摄的低光图像集合 | [github](https://github.com/baidut/BIMEF) |
 
 ---
 

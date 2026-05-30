@@ -76,16 +76,32 @@ If you only have time for a few papers, read these in order:
 
 ## Datasets
 
-> Beginners should start with **LOL** — the most widely used benchmark.
+Low-light enhancement datasets are usually split by whether paired reference images are available: **supervised paired datasets** and **unpaired/no-reference test sets**.
 
-| Dataset | Description | Link | Rating |
-|:--:|------|:--:|:--:|
-| [LOL](https://arxiv.org/abs/1808.04560) | 500 paired low/normal-light training images | [link](https://daooshee.github.io/BMVC2018website) | ⭐⭐⭐ Best for starters |
-| SDSD | High-quality video dataset with mechatronic alignment | [github](https://github.com/dvlab-research/SDSD) | ⭐⭐ |
-| MID | Matching image pairs of low-light scenes | [link](https://wenzhengchina.github.io/projects/mid/) | ⭐ |
-| DeepHDRVideo | HDR video reconstruction dataset | [link](https://guanyingc.github.io/DeepHDRVideo-Dataset/) | ⭐ |
-| LLVIP | Visible-infrared paired low-light dataset | [link](https://bupt-ai-cz.github.io/LLVIP/) | ⭐⭐ |
-| RELLISUR | Real low-light image super-resolution | [link](https://vap.aau.dk/rellisur/) | ⭐ |
+### Supervised Paired Datasets
+
+These datasets provide low-light images and normal-light reference images. They are suitable for training or for full-reference metrics such as PSNR, SSIM, and LPIPS.
+
+| Dataset | Subset/Version | Description | Link |
+|:--:|:--:|------|:--:|
+| LOLv1 | - | Classic paired benchmark for low-light image enhancement | [paper](https://arxiv.org/abs/1808.04560) / [project](https://daooshee.github.io/BMVC2018website) |
+| LOLv2 | Real | Real captured low/normal-light paired images, closer to real-world scenes | [github](https://github.com/flyywh/CVPR-2020-Semi-Low-Light) |
+| LOLv2 | Synthetic | Synthetic low/normal-light paired images for controlled training and comparison | [github](https://github.com/flyywh/CVPR-2020-Semi-Low-Light) |
+| MIT-Adobe FiveK | - | 5,000 RAW photos with expert retouching results; often used for photo enhancement and exposure correction | [dataset](https://data.csail.mit.edu/graphics/fivek/) |
+| LSRW | Huawei | Large-scale real-world paired low/normal-light data captured with Huawei devices | [paper](https://arxiv.org/abs/2106.14501) / [github](https://github.com/JianghaiSCU/R2RNet) |
+| LSRW | Nikon | Large-scale real-world paired low/normal-light data captured with Nikon cameras | [paper](https://arxiv.org/abs/2106.14501) / [github](https://github.com/JianghaiSCU/R2RNet) |
+
+### Unpaired / No-Reference Test Sets
+
+These datasets usually contain low-light images without strictly paired normal-light references. They are commonly used for unsupervised methods, zero-reference methods, and cross-dataset generalization tests.
+
+| Dataset | Description | Link |
+|:--:|------|:--:|
+| VV | Challenging low-light/exposure images for visual quality comparison | [github](https://github.com/baidut/BIMEF) |
+| NPE | Naturalness Preserved Enhancement test set | [github](https://github.com/baidut/BIMEF) |
+| LIME | Low-light test images used by the LIME paper | [github](https://github.com/baidut/BIMEF) |
+| MEF | Multi-exposure fusion related low-light test images | [github](https://github.com/baidut/BIMEF) |
+| DICM | Low-light images captured by commercial digital cameras | [github](https://github.com/baidut/BIMEF) |
 
 ---
 
