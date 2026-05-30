@@ -269,13 +269,19 @@
 
 ## 评测代码
 
-`evaluate.py` 基于官方库实现，一键评测所有常用指标：
+`evaluate.py` 基于官方库实现常用图像质量指标，支持单张图像、单个方法目录和多方法目录三种评测入口：
 
 ```bash
 # 安装依赖
 pip install -r requirements.txt
 
-# 使用项目内置示例数据评测
+# 单张图像评测
+python evaluate.py -e test_data/enhanced/method_a/scene1.png -g test_data/gt/scene1.png
+
+# 单个方法目录评测
+python evaluate.py --enhanced_dir test_data/enhanced/method_a --gt_dir test_data/gt/
+
+# 多方法目录评测
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
 
 # 只运行不依赖 pyiqa/torch 的基础全参考指标
@@ -284,6 +290,21 @@ python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --fr
 # 自定义 CSV 输出位置
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --output_csv comparison.csv
 ```
+
+参数说明：
+
+| 参数 | 说明 |
+|------|------|
+| `-e`, `--enhanced` | 单张增强图像路径 |
+| `-g`, `--gt` | 单张参考图像路径 |
+| `--enhanced_dir` | 单个方法的增强结果目录 |
+| `--models_root` | 多方法根目录，每个子目录视为一个方法 |
+| `--gt_dir` | 参考图像目录，文件名需和增强图像对应 |
+| `--fr` | 选择全参考 pyiqa 指标；不接值时关闭 LPIPS 等 pyiqa 全参考指标 |
+| `--nr` | 选择无参考 pyiqa 指标；不接值时关闭 NIQE/BRISQUE/PI 等无参考指标 |
+| `--device` | 指定 `cuda` 或 `cpu`，默认自动选择 |
+| `--resize` | 当增强图和参考图尺寸不一致时，将增强图缩放到参考图尺寸 |
+| `--output_csv` | 指定 CSV 输出路径，默认 `metrics_summary.csv` |
 
 | 指标 | 类型 | 实现来源 |
 |------|:--:|------|
@@ -303,6 +324,17 @@ python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --ou
 ```bash
 pip install -r requirements.txt
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
+```
+
+`test_data/` 结构如下：
+
+```
+test_data/
+├── gt/                    ← 正常光照参考图像
+├── lowlight/              ← 原始弱光图像
+└── enhanced/
+    ├── method_a/          ← 方法 A 的增强结果
+    └── method_b/          ← 方法 B 的增强结果
 ```
 
 ---

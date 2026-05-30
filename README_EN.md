@@ -129,13 +129,19 @@ Python implementations of these metrics are provided by `evaluate.py` in the pro
 
 ## Evaluation Code
 
-`evaluate.py` uses official libraries to compute all common metrics:
+`evaluate.py` uses official libraries to compute common image-quality metrics. It supports single-image, one-method folder, and multi-method folder evaluation:
 
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the built-in demo data
+# Single image evaluation
+python evaluate.py -e test_data/enhanced/method_a/scene1.png -g test_data/gt/scene1.png
+
+# One-method folder evaluation
+python evaluate.py --enhanced_dir test_data/enhanced/method_a --gt_dir test_data/gt/
+
+# Multi-method folder evaluation
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
 
 # Run only basic full-reference metrics without pyiqa/torch
@@ -144,6 +150,21 @@ python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --fr
 # Custom CSV output
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --output_csv comparison.csv
 ```
+
+Arguments:
+
+| Argument | Description |
+|------|------|
+| `-e`, `--enhanced` | Single enhanced image path |
+| `-g`, `--gt` | Single reference image path |
+| `--enhanced_dir` | Enhanced-result folder for one method |
+| `--models_root` | Multi-method root folder; each subfolder is treated as one method |
+| `--gt_dir` | Reference image folder; filenames should match enhanced images |
+| `--fr` | Select full-reference pyiqa metrics; pass no values to disable LPIPS and other pyiqa full-reference metrics |
+| `--nr` | Select no-reference pyiqa metrics; pass no values to disable NIQE/BRISQUE/PI and other no-reference metrics |
+| `--device` | Use `cuda` or `cpu`; default is auto |
+| `--resize` | Resize enhanced images to the reference image size when shapes differ |
+| `--output_csv` | CSV output path; default is `metrics_summary.csv` |
 
 | Metric | Type | Implementation |
 |------|:--:|------|

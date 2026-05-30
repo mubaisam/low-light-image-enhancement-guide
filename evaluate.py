@@ -316,7 +316,14 @@ def print_rows(rows: List[Dict[str, Union[str, int, float]]]) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Official-library metrics for low-light image enhancement."
+        description="Official-library metrics for low-light image enhancement.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""Examples:
+  python evaluate.py -e test_data/enhanced/method_a/scene1.png -g test_data/gt/scene1.png
+  python evaluate.py --enhanced_dir test_data/enhanced/method_a --gt_dir test_data/gt
+  python evaluate.py --models_root test_data/enhanced --gt_dir test_data/gt
+  python evaluate.py --models_root test_data/enhanced --gt_dir test_data/gt --fr --nr
+""",
     )
 
     parser.add_argument("-e", "--enhanced", help="Enhanced image path for single-image evaluation.")
