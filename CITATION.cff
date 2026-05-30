@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "Low-Light Image Enhancement Guide"
+message: "If you use this guide in your research or learning, please cite it as below."
+type: software
+authors:
+  - family-names: "Bai"
+    given-names: "Guangrui"
+year: 2026
+url: "https://github.com/mubaisam/low-light-image-enhancement-guide"
+abstract: "A beginner-friendly guide to low-light image enhancement, covering fundamental concepts, classic and deep learning methods, datasets, evaluation metrics, and evaluation code."

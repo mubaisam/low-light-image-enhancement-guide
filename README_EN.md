@@ -1,0 +1,228 @@
+# Low-Light Image Enhancement: A Beginner's Guide
+
+> A beginner-friendly guide to low-light image enhancement, covering fundamental concepts, classic and deep learning methods, datasets, evaluation metrics, and evaluation code.
+
+This project helps newcomers and graduate students build a systematic understanding of low-light image enhancement. It is not a complete literature database, but a structured learning guide with concept explanations, recommended papers, datasets, metrics, and hands-on evaluation scripts.
+
+Contributions are welcome via [issues](../../issues) or [pull requests](../../pulls).
+
+> **Note**: The main README (中文版) is in Chinese. This English version covers the same structure and key content.
+
+---
+
+## Table of Contents
+
+- [Learning Roadmap](#learning-roadmap)
+- [Core Concepts](#core-concepts)
+- [Recommended Starter Papers](#recommended-starter-papers)
+- [Datasets](#datasets)
+- [Methods Overview](#methods-overview)
+- [Evaluation Metrics](#evaluation-metrics)
+- [Evaluation Code](#evaluation-code)
+- [Surveys & Benchmarks](#surveys--benchmarks)
+- [Related Work](#related-work)
+- [More References](#more-references)
+
+---
+
+## Learning Roadmap
+
+| Stage | Goal | Suggested Time | Key Action |
+|:--:|------|:--:|------|
+| 1 | Understand the problem and main paradigms | 1-2 days | Read core concepts, browse dataset examples |
+| 2 | Run classic algorithms, see enhancement effects | 2-3 days | Run open-source code from recommended papers (e.g., RetinexNet, EnlightenGAN) |
+| 3 | Read 3-5 classic papers, reproduce core methods | 1-2 weeks | Study recommended papers, run open-source code |
+| 4 | Track frontiers, develop research ideas | Ongoing | Read recent top-conference papers |
+
+---
+
+## Core Concepts
+
+### What is Low-Light Image Enhancement?
+
+Low-Light Image Enhancement (LLIE) refers to algorithms that improve image quality captured under low-light conditions — increasing brightness, revealing details, controlling noise, while maintaining a natural appearance. Applications include **night surveillance, autonomous driving, fluorescence microscopy, and smartphone night photography**.
+
+### Why is it Hard?
+
+- **Low photon counts** → weak signal, low SNR
+- **Complex noise** → mixed Poisson-Gaussian noise distributions in dark conditions
+- **High dynamic range** → coexisting extremely dark and bright regions
+- **Color degradation** → severe color information loss in low light
+- **No ground truth** → hard to capture perfectly aligned bright-dark image pairs
+
+### Three Main Paradigms
+
+#### 1. Histogram Equalization (HE)
+Redistributes pixel intensity values to stretch dark regions and compress bright ones, improving overall contrast. Simple, fast, requires no training. Prone to over-enhancement and noise amplification. **Start with BPDHE** (brightness-preserving variant).
+
+#### 2. Retinex Theory
+Based on Edwin Land's theory: an image = **Illumination × Reflectance**. The reflectance component represents the object's true color/texture (independent of lighting). Methods estimate and correct the illumination component to recover the scene. Physically interpretable but ill-posed. **Start with LIME** (simplest approach: estimate illumination map, then gamma-correct).
+
+#### 3. Deep Learning Methods
+Let neural networks learn the "dark → bright" mapping from data. Sub-directions include:
+- **End-to-end enhancement**: direct dark-to-bright mapping (SID, MBLLEN)
+- **Retinex + Deep Learning**: network-based decomposition (RetinexNet, KinD)
+- **GANs**: adversarial training for realism (EnlightenGAN)
+- **Unsupervised/Self-supervised**: no paired data needed
+- **Diffusion models**: generative enhancement (Diff-Retinex, ExposureDiffusion)
+- **Transformers**: global illumination modeling (Retinexformer)
+
+> **Tip**: Most methods boil down to either "learn a mapping function" or "decompose → adjust → reconstruct". Start with RetinexNet and EnlightenGAN.
+
+---
+
+## Recommended Starter Papers
+
+If you only have time for a few papers, read these in order:
+
+| # | Paper | Venue | Why Read | Level |
+|:--:|------|:--:|------|:--:|
+| 1 | **LIME** — Illumination Map Estimation | 2017 TIP | Clean, elegant traditional method. Best entry point. | ⭐ |
+| 2 | **RetinexNet** — Deep Retinex Decomposition | 2018 BMVC | First to combine Retinex with deep learning. | ⭐⭐ |
+| 3 | **KinD** — Kindling the Darkness | 2019 ACM MM | Complete decompose-adjust-reconstruct pipeline. | ⭐⭐ |
+| 4 | **EnlightenGAN** — Enhancement without Paired Supervision | 2019 TIP | GAN-based, no paired data needed. Influential. | ⭐⭐ |
+| 5 | **SID** — Learning to See in the Dark | 2018 CVPR | Landmark work on extreme low-light (~0.1 lux). | ⭐⭐⭐ |
+| 6 | **Zero-DCE** — Zero-Reference Deep Curve Estimation | 2020 CVPR | No reference, no paired data. Novel curve-based approach. | ⭐⭐ |
+| 7 | **URetinex-Net** — Deep Unfolding Network | 2022 CVPR | Unrolling optimization with deep learning. | ⭐⭐⭐ |
+| 8 | **Retinexformer** — One-stage Transformer | 2023 ICCV | Transformer for LLIE. Latest architecture. | ⭐⭐⭐ |
+
+---
+
+## Datasets
+
+> Beginners should start with **LOL** — the most widely used benchmark.
+
+| Dataset | Description | Link | Rating |
+|:--:|------|:--:|:--:|
+| [LOL](https://arxiv.org/abs/1808.04560) | 500 paired low/normal-light training images | [link](https://daooshee.github.io/BMVC2018website) | ⭐⭐⭐ Best for starters |
+| SDSD | High-quality video dataset with mechatronic alignment | [github](https://github.com/dvlab-research/SDSD) | ⭐⭐ |
+| MID | Matching image pairs of low-light scenes | [link](https://wenzhengchina.github.io/projects/mid/) | ⭐ |
+| DeepHDRVideo | HDR video reconstruction dataset | [link](https://guanyingc.github.io/DeepHDRVideo-Dataset/) | ⭐ |
+| LLVIP | Visible-infrared paired low-light dataset | [link](https://bupt-ai-cz.github.io/LLVIP/) | ⭐⭐ |
+| RELLISUR | Real low-light image super-resolution | [link](https://vap.aau.dk/rellisur/) | ⭐ |
+
+---
+
+## Methods Overview
+
+For the complete paper list with links, codes, and difficulty ratings, see the [main Chinese README](./README.md#方法总览). The methods are organized into:
+
+- **HE-based** — Simple, fast, no training needed. Good for real-time/embedded scenarios.
+- **Retinex-based** — Physically interpretable. Traditional (LIME, MF) or deep (RetinexNet, KinD, Retinexformer).
+- **Learning-based** — State-of-the-art performance. From CNNs to GANs to Diffusion to Transformers.
+- **Other methods** — Camera response models, multi-exposure fusion, filtering-based.
+
+---
+
+## Evaluation Metrics
+
+### Full-Reference (require ground truth)
+
+| Metric | What it measures | Notes |
+|:--:|------|------|
+| **PSNR** | Pixel-level difference | Most common; doesn't always match perception |
+| **SSIM** | Structural similarity (luminance, contrast, structure) | More perceptually aligned than PSNR |
+| **LPIPS** | Deep feature similarity | Best perceptual alignment. [Code](https://github.com/richzhang/PerceptualSimilarity) |
+| **MSE / MAE** | Pixel error (squared / absolute) | Simple baselines |
+
+### No-Reference (no ground truth needed)
+
+| Metric | What it measures | Notes |
+|:--:|------|------|
+| **LOE** | Lightness order preservation | Specifically designed for LLIE |
+| **NIQE** | Naturalness via statistical regularities | Widely used general-purpose metric |
+| **MUSIQ** | Multi-scale quality assessment with Transformer | Strong current no-reference metric |
+| **NIMA** | Neural aesthetic scoring | Human preference prediction |
+| **SPAQ** | Smartphone photography quality | Mobile-specific |
+
+> **Tip**: Always report at least PSNR + SSIM + NIQE. Add LPIPS for perceptual quality.
+
+Python implementations of these metrics are provided by `evaluate.py` in the project root.
+
+---
+
+## Evaluation Code
+
+`evaluate.py` uses official libraries to compute all common metrics:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Single image evaluation
+python evaluate.py -e result.png -g gt.png
+
+# Custom metric selection
+python evaluate.py -e result.png -g gt.png \
+    --fr lpips --nr niqe brisque pi musiq
+
+# Multi-method comparison + CSV output
+python evaluate.py --models_root ./results/ --gt_dir ./gt/ --output_csv comparison.csv
+```
+
+| Metric | Type | Implementation |
+|------|:--:|------|
+| PSNR / SSIM / MSE / MAE | Full-ref | `skimage.metrics` (official) |
+| LPIPS | Full-ref | `pyiqa` (Zhang et al. CVPR 2018) |
+| NIQE / BRISQUE / PI | No-ref | `pyiqa` (official) |
+| MUSIQ / NIMA | No-ref | `pyiqa` optional (`--nr ... musiq nima`) |
+
+> **About LOE**: LOE is not included because neither scikit-image nor pyiqa provides an official implementation. If LOE is needed, use a custom implementation and clearly mark it as such.
+
+All metrics use scikit-image and pyiqa official libraries for standardized, reproducible evaluation.
+
+### Quick Demo
+
+The project includes built-in test data. No image preparation needed:
+
+```bash
+pip install -r requirements.txt
+
+# Compare method_a vs method_b on 3 test images
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
+```
+
+`test_data/` structure:
+
+```
+test_data/
+├── gt/                    ← Ground truth (normal light)
+├── lowlight/              ← Original low-light images
+└── enhanced/
+    ├── method_a/          ← Results from method A
+    └── method_b/          ← Results from method B
+```
+
+For your own data: place enhanced results into subfolders under `enhanced/`, GT images with matching filenames into `gt/`, then run the same command.
+
+---
+
+## Surveys & Benchmarks
+
+| Year | Venue | Paper | Links |
+|:--:|------|------|:--:|
+| 2022 | ArXiv | Low-Light Image and Video Enhancement: A Comprehensive Survey and Beyond | [pdf](http://arxiv.org/abs/2212.10772) [code](https://github.com/shenzheng2000/llie_survey) |
+
+---
+
+## Related Work
+
+| Year | Venue | Paper | Links | Topic |
+|:--:|------|------|:--:|------|
+| 2015 | ACM TOG | Automatic Photo Adjustment Using Deep Neural Networks | [web](https://sites.google.com/site/homepagezhichengyan/home/dl_img_adjust) [code](https://github.com/stephenyan1984/DeepPhotoStyle_TensorFlow) | Photo Enhancement |
+| 2018 | CVPR | Distort-and-Recover: Color Enhancement using Deep RL | [web](https://sites.google.com/view/distort-and-recover/) [pdf](https://doi.org/10.1109/CVPR.2018.00621) | Photo Enhancement |
+| 2021 | TMM | Recurrent exposure generation for low-light face detection | [pdf](https://arxiv.org/abs/2007.10963) [code](https://github.com/sherrycattt/REGDet) | Face Detection |
+| 2022 | ICCP | Robust Scene Inference under Noise-Blur Dual Corruptions | [pdf](https://arxiv.org/abs/2207.11643) [code](https://github.com/bhavyagoyal/noiseblurdual) | Scene Inference |
+| 2024 | AAAI | Aleth-NeRF: Illumination Adaptive NeRF | [pdf](https://arxiv.org/abs/2312.09093) [code](https://github.com/cuiziteng/Aleth-NeRF) | NeRF/3D |
+
+---
+
+## More References
+
+- [OpenCE](https://github.com/baidut/OpenCE) — Collection of image enhancement algorithms
+- [image-enhancement-about-Retinex](https://github.com/tiandaoxiaowu/image-enhancement-about-Retinex) — Retinex resources
+- [Lighting-the-Darkness-in-the-Deep-Learning-Era-Open](https://github.com/Li-Chongyi/Lighting-the-Darkness-in-the-Deep-Learning-Era-Open) — Deep learning era LLIE resources
+
+---
+
+> **Maintenance**: This guide is community-maintained. For broken links, new work, or suggestions, please use [issues](../../issues) or [pull requests](../../pulls).

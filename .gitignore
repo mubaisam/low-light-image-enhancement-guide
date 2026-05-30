@@ -1,0 +1,20 @@
+# Output artifacts
+metrics_summary.csv
+
+# User data (real images, do not commit)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
