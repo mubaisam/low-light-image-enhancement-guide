@@ -10,7 +10,6 @@
 
 ## 目录
 
-- [新手学习路线图](#新手学习路线图)
 - [基础概念速览](#基础概念速览)
 - [入门推荐论文](#入门推荐论文)
 - [数据集](#数据集)
@@ -24,35 +23,6 @@
 - [综述与基准测试](#综述与基准测试)
 - [相关研究方向](#相关研究方向)
 - [更多参考资源](#更多参考资源)
-
----
-
-## 新手学习路线图
-
-如果你是刚接触弱光图像增强的新手，建议按照以下路线循序渐进：
-
-```
-第一阶段：了解问题
-  └─ 阅读「基础概念速览」，理解什么是弱光增强、有哪些经典思路
-
-第二阶段：动手体验
-  └─ 跑通「快速上手代码」中的 HE、MSR 等传统方法，建立直观感受
-
-第三阶段：系统学习
-  └─ 阅读「入门推荐论文」，从 RetinexNet、KinD、EnlightenGAN 等经典工作入手
-
-第四阶段：深入前沿
-  └─ 浏览「方法总览」中的完整论文列表，追踪 CVPR/ICCV 等顶会最新进展
-```
-
-| 阶段 | 目标 | 建议时间 | 关键动作 |
-|:--:|------|:--:|------|
-| 1 | 理解问题定义和主流范式 | 1-2 天 | 读完基础概念，浏览几个数据集的示例图像 |
-| 2 | 运行经典算法，看到增强效果 | 2-3 天 | 运行入门推荐论文的开源代码（如 RetinexNet, EnlightenGAN），或使用 Python 原型做实验 |
-| 3 | 读懂 3-5 篇经典论文，复现核心方法 | 1-2 周 | 精读入门推荐论文，尝试运行开源代码 |
-| 4 | 跟踪前沿，形成自己的研究思路 | 持续 | 阅读当年顶会论文，参与社区讨论 |
-
----
 
 ## 基础概念速览
 
@@ -305,15 +275,14 @@
 # 安装依赖
 pip install -r requirements.txt
 
-# 单张图像评测
-python evaluate.py -e result.png -g gt.png
+# 使用项目内置示例数据评测
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
 
-# 自定义指标选择
-python evaluate.py -e result.png -g gt.png \
-    --fr lpips --nr niqe brisque pi musiq
+# 只运行不依赖 pyiqa/torch 的基础全参考指标
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --fr --nr
 
-# 多方法对比 + CSV 输出
-python evaluate.py --models_root ./results/ --gt_dir ./gt/ --output_csv comparison.csv
+# 自定义 CSV 输出位置
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --output_csv comparison.csv
 ```
 
 | 指标 | 类型 | 实现来源 |
@@ -327,34 +296,13 @@ python evaluate.py --models_root ./results/ --gt_dir ./gt/ --output_csv comparis
 
 所有指标均使用 scikit-image 和 pyiqa 官方库，避免手工实现的偏差。适合作为方法对比的标准化评测工具。
 
-### 一键体验（合成数据）
+### 一键体验
 
-项目内置了合成测试数据，无需准备图像，开箱即用：
+项目内置了测试数据，无需准备图像，开箱即用：
 
 ```bash
 pip install -r requirements.txt
 python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
-```
-
-### 评测真实数据
-
-将你自己的图像按以下结构放入 `data/`（已在 `.gitignore` 中排除）：
-
-```
-data/
-├── gt/                    ← 正常光照真值 (可选，用于全参考指标)
-├── lowlight/              ← 原始弱光图像 (可选，用于参考)
-└── enhanced/
-    ├── your_method/       ← 你的方法增强结果
-    └── baseline/          ← 对比方法的增强结果
-```
-
-```bash
-# 有 GT: 全参考 + 无参考
-python evaluate.py --models_root data/enhanced/ --gt_dir data/gt/
-
-# 无 GT: 仅无参考指标 (NIQE, BRISQUE, PI)
-python evaluate.py --enhanced_dir data/enhanced/your_method/
 ```
 
 ---

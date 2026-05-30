@@ -12,7 +12,6 @@ Contributions are welcome via [issues](../../issues) or [pull requests](../../pu
 
 ## Table of Contents
 
-- [Learning Roadmap](#learning-roadmap)
 - [Core Concepts](#core-concepts)
 - [Recommended Starter Papers](#recommended-starter-papers)
 - [Datasets](#datasets)
@@ -22,19 +21,6 @@ Contributions are welcome via [issues](../../issues) or [pull requests](../../pu
 - [Surveys & Benchmarks](#surveys--benchmarks)
 - [Related Work](#related-work)
 - [More References](#more-references)
-
----
-
-## Learning Roadmap
-
-| Stage | Goal | Suggested Time | Key Action |
-|:--:|------|:--:|------|
-| 1 | Understand the problem and main paradigms | 1-2 days | Read core concepts, browse dataset examples |
-| 2 | Run classic algorithms, see enhancement effects | 2-3 days | Run open-source code from recommended papers (e.g., RetinexNet, EnlightenGAN) |
-| 3 | Read 3-5 classic papers, reproduce core methods | 1-2 weeks | Study recommended papers, run open-source code |
-| 4 | Track frontiers, develop research ideas | Ongoing | Read recent top-conference papers |
-
----
 
 ## Core Concepts
 
@@ -149,15 +135,14 @@ Python implementations of these metrics are provided by `evaluate.py` in the pro
 # Install dependencies
 pip install -r requirements.txt
 
-# Single image evaluation
-python evaluate.py -e result.png -g gt.png
+# Run the built-in demo data
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/
 
-# Custom metric selection
-python evaluate.py -e result.png -g gt.png \
-    --fr lpips --nr niqe brisque pi musiq
+# Run only basic full-reference metrics without pyiqa/torch
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --fr --nr
 
-# Multi-method comparison + CSV output
-python evaluate.py --models_root ./results/ --gt_dir ./gt/ --output_csv comparison.csv
+# Custom CSV output
+python evaluate.py --models_root test_data/enhanced/ --gt_dir test_data/gt/ --output_csv comparison.csv
 ```
 
 | Metric | Type | Implementation |
@@ -192,8 +177,6 @@ test_data/
     ├── method_a/          ← Results from method A
     └── method_b/          ← Results from method B
 ```
-
-For your own data: place enhanced results into subfolders under `enhanced/`, GT images with matching filenames into `gt/`, then run the same command.
 
 ---
 
